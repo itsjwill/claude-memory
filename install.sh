@@ -64,8 +64,8 @@ else
     # Download from GitHub if running via curl
     SCRIPT_DIR=$(mktemp -d)
     echo "Downloading files..."
-    curl -fsSL "https://raw.githubusercontent.com/YOUR_USERNAME/claude-memory/main/skills/capture/SKILL.md" -o "$SCRIPT_DIR/SKILL.md"
-    curl -fsSL "https://raw.githubusercontent.com/YOUR_USERNAME/claude-memory/main/examples/MEMORY.md" -o "$SCRIPT_DIR/MEMORY_EXAMPLE.md"
+    curl -fsSL "https://raw.githubusercontent.com/maskedhunter/claude-memory/main/skills/capture/SKILL.md" -o "$SCRIPT_DIR/SKILL.md"
+    curl -fsSL "https://raw.githubusercontent.com/maskedhunter/claude-memory/main/examples/MEMORY.md" -o "$SCRIPT_DIR/MEMORY_EXAMPLE.md"
 fi
 
 # Install skills
@@ -221,5 +221,5 @@ echo "  1. Restart Claude Code to load the new skill"
 echo "  2. Try: /capture \"Test memory\""
 echo "  3. Claude will now auto-capture important context"
 echo ""
-echo "Documentation: https://github.com/YOUR_USERNAME/claude-memory"
+echo "Documentation: https://github.com/maskedhunter/claude-memory"
 echo ""
