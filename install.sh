@@ -60,12 +60,20 @@ echo -e "${GREEN}✓ Directories created${NC}"
 # Get script directory (works for both curl | bash and local execution)
 if [ -n "$BASH_SOURCE" ] && [ -f "${BASH_SOURCE%/*}/skills/capture/SKILL.md" ]; then
     SCRIPT_DIR="${BASH_SOURCE%/*}"
+    CURL_MODE=false
 else
     # Download from GitHub if running via curl
     SCRIPT_DIR=$(mktemp -d)
-    echo "Downloading files..."
-    curl -fsSL "https://raw.githubusercontent.com/itsjwill/claude-memory/main/skills/capture/SKILL.md" -o "$SCRIPT_DIR/SKILL.md"
+    CURL_MODE=true
+    echo "Downloading skills..."
+    mkdir -p "$SCRIPT_DIR/skills/capture"
+    mkdir -p "$SCRIPT_DIR/skills/session-start"
+    mkdir -p "$SCRIPT_DIR/skills/session-end"
+    curl -fsSL "https://raw.githubusercontent.com/itsjwill/claude-memory/main/skills/capture/SKILL.md" -o "$SCRIPT_DIR/skills/capture/SKILL.md"
+    curl -fsSL "https://raw.githubusercontent.com/itsjwill/claude-memory/main/skills/session-start/SKILL.md" -o "$SCRIPT_DIR/skills/session-start/SKILL.md"
+    curl -fsSL "https://raw.githubusercontent.com/itsjwill/claude-memory/main/skills/session-end/SKILL.md" -o "$SCRIPT_DIR/skills/session-end/SKILL.md"
     curl -fsSL "https://raw.githubusercontent.com/itsjwill/claude-memory/main/examples/MEMORY.md" -o "$SCRIPT_DIR/MEMORY_EXAMPLE.md"
+    echo -e "${GREEN}✓ Downloaded all skills${NC}"
 fi
 
 # Install skills
@@ -73,28 +81,32 @@ echo ""
 echo "Installing skills..."
 
 # /capture skill
-if [ -f "$SCRIPT_DIR/SKILL.md" ]; then
-    cp "$SCRIPT_DIR/SKILL.md" "$CAPTURE_DIR/SKILL.md"
-elif [ -f "$SCRIPT_DIR/skills/capture/SKILL.md" ]; then
+if [ -f "$SCRIPT_DIR/skills/capture/SKILL.md" ]; then
     cp "$SCRIPT_DIR/skills/capture/SKILL.md" "$CAPTURE_DIR/SKILL.md"
+    echo -e "${GREEN}✓ /capture skill installed${NC}"
+else
+    echo -e "${RED}✗ /capture skill not found${NC}"
 fi
-echo -e "${GREEN}✓ /capture skill installed${NC}"
 
 # /session-end skill
 SESSION_END_DIR="$SKILLS_DIR/session-end"
 mkdir -p "$SESSION_END_DIR"
 if [ -f "$SCRIPT_DIR/skills/session-end/SKILL.md" ]; then
     cp "$SCRIPT_DIR/skills/session-end/SKILL.md" "$SESSION_END_DIR/SKILL.md"
+    echo -e "${GREEN}✓ /session-end skill installed${NC}"
+else
+    echo -e "${RED}✗ /session-end skill not found${NC}"
 fi
-echo -e "${GREEN}✓ /session-end skill installed${NC}"
 
 # /session-start skill
 SESSION_START_DIR="$SKILLS_DIR/session-start"
 mkdir -p "$SESSION_START_DIR"
 if [ -f "$SCRIPT_DIR/skills/session-start/SKILL.md" ]; then
     cp "$SCRIPT_DIR/skills/session-start/SKILL.md" "$SESSION_START_DIR/SKILL.md"
+    echo -e "${GREEN}✓ /session-start skill installed${NC}"
+else
+    echo -e "${RED}✗ /session-start skill not found${NC}"
 fi
-echo -e "${GREEN}✓ /session-start skill installed${NC}"
 
 # Create or update MEMORY.md
 echo ""

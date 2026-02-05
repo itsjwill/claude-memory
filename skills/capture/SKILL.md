@@ -58,10 +58,39 @@ call this skill SILENTLY without asking the user. Just capture and continue.
 ## Execution Steps
 
 1. **Parse the input**: Extract content, type, and tags from arguments
-2. **Auto-classify if needed**: If no type provided, infer from content
-3. **Check for duplicates**: Search existing memories for similar content
-4. **Store the memory**: Use memory_store with proper metadata
-5. **Silent confirmation**: Do NOT notify user unless they explicitly invoked /capture
+2. **Assess confidence**: Rate 0-100 how important this is (see below)
+3. **Apply threshold**: Only auto-capture if confidence >= 70 (manual /capture bypasses this)
+4. **Auto-classify if needed**: If no type provided, infer from content
+5. **Check for duplicates**: Search existing memories for similar content
+6. **Store the memory**: Use memory_store with proper metadata including confidence
+7. **Silent confirmation**: Do NOT notify user unless they explicitly invoked /capture
+
+## Confidence Scoring (IMPORTANT)
+
+Before auto-capturing, rate confidence 0-100:
+
+| Signal | Confidence Boost |
+|--------|------------------|
+| Contains specific names/numbers/dates | +30 |
+| Contains "decided", "chose", "will use" | +25 |
+| Contains file paths or API references | +25 |
+| Contains "$" amounts or invoice info | +30 |
+| Is a direct answer to user's question | +20 |
+| Contains "always", "never", "must" | +15 |
+| Is vague or hypothetical | -30 |
+| Is just discussion, not conclusion | -20 |
+| User explicitly asked to remember | +50 |
+
+**Threshold: Only auto-capture if confidence >= 70**
+
+Examples:
+- "Let's use PostgreSQL for the database" → 75 (decision + specific tech) ✓ CAPTURE
+- "We could maybe try Redis" → 35 (hypothetical, no decision) ✗ SKIP
+- "The API key is in /root/.env" → 85 (specific path + reference) ✓ CAPTURE
+- "I wonder if caching would help" → 25 (wondering, no conclusion) ✗ SKIP
+- "Pinnacle pays $1,500/month" → 90 (specific client + amount) ✓ CAPTURE
+
+**Manual /capture always stores regardless of confidence.**
 
 ## Auto-Classification Rules
 
@@ -124,9 +153,25 @@ If highly similar memory exists (same topic):
 - Update existing memory quality score instead of creating duplicate
 - Use memory_update to add new tags if relevant
 
+## Quality Feedback
+
+The memory system learns from feedback. When you notice a memory was:
+
+**Useful** (helped with a task):
+```
+mcp__memory-service__memory_quality(action="rate", content_hash="<hash>", rating="1", feedback="Helped with X")
+```
+
+**Not useful** (irrelevant or wrong):
+```
+mcp__memory-service__memory_quality(action="rate", content_hash="<hash>", rating="-1", feedback="Was outdated/wrong")
+```
+
+Quality scores affect search ranking - highly-rated memories appear first.
+
 ## Integration with MEMORY.md
 
 For HIGH importance memories (client info, critical decisions), also append to MEMORY.md:
-- Location: `~/.claude/projects/-Users-maskedhunter/memory/MEMORY.md`
+- Location: `~/.claude/projects/*/memory/MEMORY.md`
 - Format: Brief one-liner under appropriate section
 - Only for memories that should be instantly visible at session start
