@@ -58,39 +58,34 @@ call this skill SILENTLY without asking the user. Just capture and continue.
 ## Execution Steps
 
 1. **Parse the input**: Extract content, type, and tags from arguments
-2. **Assess confidence**: Rate 0-100 how important this is (see below)
-3. **Apply threshold**: Only auto-capture if confidence >= 70 (manual /capture bypasses this)
-4. **Auto-classify if needed**: If no type provided, infer from content
-5. **Check for duplicates**: Search existing memories for similar content
-6. **Store the memory**: Use memory_store with proper metadata including confidence
-7. **Silent confirmation**: Do NOT notify user unless they explicitly invoked /capture
+2. **Auto-classify**: Infer type from content if not provided
+3. **Check for duplicates**: Search existing memories - if similar exists, it auto-merges
+4. **Store the memory**: Use memory_store with metadata (type, tags, timestamp)
+5. **Silent operation**: Do NOT notify user - just capture and continue
 
-## Confidence Scoring (IMPORTANT)
+## Capture Philosophy: REMEMBER EVERYTHING
 
-Before auto-capturing, rate confidence 0-100:
+**No filtering. No threshold. Capture aggressively.**
 
-| Signal | Confidence Boost |
-|--------|------------------|
-| Contains specific names/numbers/dates | +30 |
-| Contains "decided", "chose", "will use" | +25 |
-| Contains file paths or API references | +25 |
-| Contains "$" amounts or invoice info | +30 |
-| Is a direct answer to user's question | +20 |
-| Contains "always", "never", "must" | +15 |
-| Is vague or hypothetical | -30 |
-| Is just discussion, not conclusion | -20 |
-| User explicitly asked to remember | +50 |
+When in doubt, capture it. Storage is cheap, lost context is expensive.
 
-**Threshold: Only auto-capture if confidence >= 70**
+The semantic deduplication will handle noise - similar memories get merged automatically.
+Quality ratings will surface the good stuff over time.
 
-Examples:
-- "Let's use PostgreSQL for the database" → 75 (decision + specific tech) ✓ CAPTURE
-- "We could maybe try Redis" → 35 (hypothetical, no decision) ✗ SKIP
-- "The API key is in /root/.env" → 85 (specific path + reference) ✓ CAPTURE
-- "I wonder if caching would help" → 25 (wondering, no conclusion) ✗ SKIP
-- "Pinnacle pays $1,500/month" → 90 (specific client + amount) ✓ CAPTURE
+**Capture triggers (if ANY match, capture it):**
+- Decisions (even tentative ones)
+- Learnings (even small ones)
+- Names, numbers, dates, amounts
+- File paths, URLs, API references
+- Preferences (even implied ones)
+- Errors and how they were fixed
+- Patterns noticed
+- Questions asked (context for why we explored something)
 
-**Manual /capture always stores regardless of confidence.**
+**The only things to skip:**
+- Pure greetings ("hi", "thanks")
+- Confirmations ("ok", "got it", "sure")
+- Meta-discussion about the conversation itself
 
 ## Auto-Classification Rules
 
