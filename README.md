@@ -15,13 +15,13 @@ Claude Memory automatically captures important context during your sessions and 
 ## Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/maskedhunter/claude-memory/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/itsjwill/claude-memory/main/install.sh | bash
 ```
 
 Or clone and run locally:
 
 ```bash
-git clone https://github.com/maskedhunter/claude-memory.git
+git clone https://github.com/itsjwill/claude-memory.git
 cd claude-memory
 ./install.sh
 ```
@@ -106,7 +106,7 @@ After installation, memories are stored in:
 ## Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/maskedhunter/claude-memory/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/itsjwill/claude-memory/main/uninstall.sh | bash
 ```
 
 Or manually:
