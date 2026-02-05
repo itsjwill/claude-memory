@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "autoCapture": {
+    "enabled": true,
+    "triggers": {
+      "decisions": true,
+      "learnings": true,
+      "errorsResolved": true,
+      "clientInfo": true,
+      "preferences": true,
+      "references": true,
+      "patterns": true,
+      "sessionCheckpoints": true
+    },
+    "checkpointInterval": 20,
+    "silent": true
+  },
+  "sessionSummary": {
+    "enabled": true,
+    "minMessages": 10,
+    "updateMemoryMd": true
+  },
+  "contextRecall": {
+    "enabled": true,
+    "maxMemories": 10,
+    "recencyDays": 7,
+    "qualityBoost": 0.3
+  },
+  "storage": {
+    "primary": "memory-service",
+    "fallback": "MEMORY.md"
+  },
+  "memoryTypes": [
+    "decision",
+    "pattern",
+    "learning",
+    "preference",
+    "client",
+    "gotcha",
+    "reference"
+  ]
+}
