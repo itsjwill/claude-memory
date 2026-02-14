@@ -7,7 +7,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/python3</string>
+        <string>/Users/maskedhunter/coding/claude-memory/.venv/bin/python3</string>
         <string>-m</string>
         <string>cloud.cli</string>
         <string>sync</string>
@@ -15,7 +15,7 @@
     </array>
 
     <key>WorkingDirectory</key>
-    <string>CLOUD_DIR_PLACEHOLDER</string>
+    <string>/Users/maskedhunter/coding/claude-memory</string>
 
     <key>StartInterval</key>
     <integer>300</integer>
