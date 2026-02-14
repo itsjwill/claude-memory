@@ -119,9 +119,32 @@ User says: "Let's continue working on the Hurricane bot"
 3. Load: Recent decisions about forecast verification, position monitoring
 4. Continue: Pick up where previous session left off
 
+## Cloud Recall Fallback
+
+If local memory search returns fewer than 3 results AND cloud backup is configured
+(~/.claude-memory-cloud.env exists):
+
+1. **Search cloud backup**:
+   ```bash
+   cd ~/coding/claude-memory && python3 -m cloud.cli search "<project or topic>" --limit 5 --include-deleted
+   ```
+
+2. **If cloud has memories not found locally**:
+   - Include cloud results in context with [CLOUD] indicator
+   - Offer to restore if user asks about missing context
+
+3. **Restore if needed**:
+   ```bash
+   cd ~/coding/claude-memory && python3 -m cloud.cli restore --hash <hash1>,<hash2>
+   ```
+
+The cloud preserves everything forever - even memories that were deleted
+or compressed during local consolidation. This ensures total recall.
+
 ## Important Notes
 
 - **Be proactive**: Don't wait for user to ask for context
 - **Be silent**: Don't announce memory loading
 - **Be selective**: Quality over quantity - top 5-10 memories
 - **Be natural**: Weave context into responses seamlessly
+- **Cloud fallback**: Use cloud when local results are sparse

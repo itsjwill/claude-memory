@@ -30,6 +30,18 @@
     "primary": "memory-service",
     "fallback": "MEMORY.md"
   },
+  "cloud": {
+    "enabled": false,
+    "provider": "supabase",
+    "syncIntervalSeconds": 300,
+    "neverDelete": true,
+    "autoRestore": true,
+    "configFile": "~/.claude-memory-cloud.env"
+  },
+  "consolidation": {
+    "destructive": false,
+    "summariesOnly": true
+  },
   "memoryTypes": [
     "decision",
     "pattern",

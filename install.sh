@@ -108,6 +108,16 @@ else
     echo -e "${RED}✗ /session-start skill not found${NC}"
 fi
 
+# /cloud-recall skill
+CLOUD_RECALL_DIR="$SKILLS_DIR/cloud-recall"
+mkdir -p "$CLOUD_RECALL_DIR"
+if [ -f "$SCRIPT_DIR/skills/cloud-recall/SKILL.md" ]; then
+    cp "$SCRIPT_DIR/skills/cloud-recall/SKILL.md" "$CLOUD_RECALL_DIR/SKILL.md"
+    echo -e "${GREEN}✓ /cloud-recall skill installed${NC}"
+else
+    echo -e "${YELLOW}⊘ /cloud-recall skill not found (optional - cloud backup)${NC}"
+fi
+
 # Create or update MEMORY.md
 echo ""
 echo "Setting up MEMORY.md..."
@@ -217,6 +227,24 @@ if [ -d "$SCRIPT_DIR" ] && [[ "$SCRIPT_DIR" == /tmp/* ]]; then
     rm -rf "$SCRIPT_DIR"
 fi
 
+# Cloud Backup (optional)
+echo ""
+echo -e "${YELLOW}=== Cloud Backup (Optional) ===${NC}"
+echo "Supabase cloud backup ensures you never lose a memory."
+echo "Your memories sync to the cloud every 5 minutes."
+echo ""
+read -p "Enable Supabase cloud backup? (y/N) " -n 1 -r
+echo ""
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if [ -f "$SCRIPT_DIR/setup-cloud.sh" ]; then
+        bash "$SCRIPT_DIR/setup-cloud.sh"
+    else
+        echo -e "${YELLOW}Cloud setup script not found.${NC}"
+        echo "Clone the repo and run: ./setup-cloud.sh"
+    fi
+fi
+
 echo ""
 echo "=================================="
 echo -e "${GREEN}  Installation Complete!${NC}"
@@ -226,12 +254,18 @@ echo "What's installed:"
 echo "  • /capture skill - manual memory saves"
 echo "  • /session-start skill - context loading"
 echo "  • /session-end skill - session summaries"
+echo "  • /cloud-recall skill - cloud memory search"
 echo "  • MEMORY.md at $MEMORY_DIR"
 echo ""
 echo "Next steps:"
-echo "  1. Restart Claude Code to load the new skill"
+echo "  1. Restart Claude Code to load the new skills"
 echo "  2. Try: /capture \"Test memory\""
 echo "  3. Claude will now auto-capture important context"
+echo ""
+echo "Cloud backup:"
+echo "  • Run ./setup-cloud.sh to enable Supabase sync"
+echo "  • Memories sync every 5 minutes automatically"
+echo "  • Cloud NEVER deletes - total recall forever"
 echo ""
 echo "Documentation: https://github.com/itsjwill/claude-memory"
 echo ""
