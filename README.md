@@ -186,7 +186,7 @@ Claude Code
 ## Requirements
 
 - [Claude Code](https://claude.ai/code) CLI
-- [MCP Memory Service](https://github.com/docsion/mcp-memory-service) (installed automatically)
+- [MCP Memory Service](https://github.com/doobidoo/mcp-memory-service) (installed automatically)
 - [Supabase](https://supabase.com) account (optional, for cloud backup — free tier works)
 
 ## Memory Types
@@ -234,10 +234,32 @@ rm -rf ~/.claude/skills/cloud-recall
 | Quick Reference | MEMORY.md | Human-readable context file |
 | Background Sync | launchd (macOS) | Auto-sync every 5 minutes |
 
+## More From Us
+
+| Repo | What It Does | Stars |
+|------|-------------|-------|
+| [vanta](https://github.com/itsjwill/vanta) | Open source AI video engine — free Synthesia/Runway alternative | ![Stars](https://img.shields.io/github/stars/itsjwill/vanta?style=social) |
+| [nextjs-animated-components](https://github.com/itsjwill/nextjs-animated-components) | 110+ free animated React components for Next.js | ![Stars](https://img.shields.io/github/stars/itsjwill/nextjs-animated-components?style=social) |
+| [seoctopus](https://github.com/itsjwill/seoctopus) | 8-armed SEO intelligence — MCP server + CLI with 23 tools | ![Stars](https://img.shields.io/github/stars/itsjwill/seoctopus?style=social) |
+
+---
+
+## Want to Build Real Projects With These Tools?
+
+Stop collecting bookmarks. Start shipping.
+
+Join **The Agentic Advantage** — where builders learn to turn tools into income.
+
+[Join The Agentic Advantage](https://www.skool.com/ai-elite-9507/about?ref=67521860944147018da6145e3db6e51c)
+
+---
+
 ## Contributing
 
-PRs welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Found something that should be here? Open a PR. Found something broken? Open an issue.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
-MIT - See [LICENSE](LICENSE)
+MIT — Go build something. See [LICENSE](LICENSE).
